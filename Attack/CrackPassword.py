@@ -56,10 +56,10 @@ def preprocess_info(info):
         info['spouse_name'][0].lower(),
         info['birthday'].split('-')[0], #birth year
         ''.join(info['birthday'].split('-')[1:]), #birth month and day
-        info['name'].capitalize(),
-        info['name'].upper(),
-        info['spouse_name'].capitalize(),
-        info['spouse_name'].upper(),
+        info['name'].capitalize().replace(' ', ''),
+        info['name'].upper().replace(' ', ''),
+        info['spouse_name'].capitalize().replace(' ', ''),
+        info['spouse_name'].upper().replace(' ', ''),
         info['birthday'].replace('-', '')
     ] #define how much information can be used in the password cracking
     start_sequence = random.choice(choices)
@@ -68,14 +68,11 @@ def preprocess_info(info):
 info = {
     'name': input("Enter your name: "),
     'birthday': input("Enter your birthday (YYYY-MM-DD): "),
-    'email': input("Enter your email: "),
-    'phone': input("Enter your phone number: "),
     'spouse_name': input("Enter your spouse's name: "),
-    'spouse_birthday': input("Enter your spouse's birthday (YYYY-MM-DD): ")
 }#collect personal data
 
 passwords_with_strengths = []
-for _ in range(10): #10 passwords will be generated
+for _ in range(20): #10 passwords will be generated
     start_sequence = preprocess_info(info)
     generated_password = generate_password(start_sequence)
     strength = evaluate_password_strength(generated_password)

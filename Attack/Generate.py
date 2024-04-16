@@ -3,7 +3,8 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
-
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Embedding
 
 passwords_df = pd.read_csv('password.csv', on_bad_lines='skip') #read files and skip error lines
 passwords = passwords_df['password'].astype(str).tolist() #prepare the data, change to string arrays
@@ -23,9 +24,6 @@ sequences = pad_sequences(sequences, maxlen=max_sequence_length, padding='post')
 X = sequences[:, :-1] #get all elements in the sequence except the last one (input)
 y = sequences[:, 1:] #get all elements in the sequence except the first one (prediction output)
 y = to_categorical(y, num_classes=len(chars)) #convert y to one-hot encoded format, number of classes is same as the number of indexs in the dictionary
-
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Embedding
 
 #neural network part
 model = Sequential()
@@ -49,6 +47,6 @@ def data_generator(sequences, batch_size):
 
 batch_size = 64
 train_generator = data_generator(sequences, batch_size)
-model.fit(train_generator, epochs=5, steps_per_epoch=len(sequences)//batch_size)
+model.fit(train_generator, epochs=2, steps_per_epoch=len(sequences)//batch_size)
 
 model.save('password_model.h5')

@@ -24,7 +24,7 @@ dataset = dataset.batch(32) #batch size is 32
 
 #machine learning part
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
+    tf.keras.layers.Dense(64, activation='relu', input_shape=(4,)),
     tf.keras.layers.Dense(64, activation='relu'),
     tf.keras.layers.Dense(3, activation='softmax')
 ])
