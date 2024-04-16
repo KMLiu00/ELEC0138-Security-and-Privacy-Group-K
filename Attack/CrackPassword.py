@@ -17,15 +17,25 @@ char_to_index = dict((c, i) for i, c in enumerate(chars)) #create an dictionary 
 index_to_char = dict((i, c) for i, c in enumerate(chars)) #create an dictiionary with index mapping to its character, for using index to search character
 
 def evaluate_password_strength(password):
-    password_length = tf.constant([[len(password)]], dtype=tf.float32)
-    prediction = strength_model.predict(password_length)
-    strength = prediction.argmax(axis=1)[0] + 1
+
+    length = len(password) #calculate the length for password
+    has_upper = any(c.isupper() for c in password) #check if there is upper case
+    has_lower = any(c.islower() for c in password) #check if there is lower case
+    has_special = any(c in set('!@#$%^&*()-_=+[]{};:",.<>?') for c in password) #check if there is special character in this password
+
+    features = np.array([[length, has_upper, has_lower, has_special]], dtype=np.float32) #process data
+
+    prediction = strength_model.predict(features) #predict the strength by using the model
+    strength = prediction.argmax(axis=1)[0]  #find the index with highest probility, and the index represent the strength class (0-2)
     return strength
 
+
 def generate_password(start_sequence):
+
+    max_length = random.randint(8, 12)
     generated_password = start_sequence #initalization
 
-    while len(generated_password) < 12: # repeat 12 times
+    while len(generated_password) < max_length: # repeat 12 times
         input_seq = [char_to_index.get(generated_password[-1], 0)] #get the index for the last eletment, if cannot be found, make it zero
         input_seq = np.array(input_seq).reshape(1, -1) #reshape input_seq to 2 dimensional with only one row
 
@@ -35,14 +45,22 @@ def generate_password(start_sequence):
 
         next_char = index_to_char[next_index] #find which letter this index stands for
         generated_password += next_char #add the new character to the password array
+
     return generated_password
 
 def preprocess_info(info):
     choices = [
-        info['name'][0].upper(), info['name'][0].lower(),
-        info['spouse_name'][0].upper(), info['spouse_name'][0].lower(),
-        info['birthday'].split('-')[0],
-        ''.join(info['birthday'].split('-')[1:])
+        info['name'][0].upper(), #first letter of name upper case
+        info['name'][0].lower(), #first letter of name lower case
+        info['spouse_name'][0].upper(),
+        info['spouse_name'][0].lower(),
+        info['birthday'].split('-')[0], #birth year
+        ''.join(info['birthday'].split('-')[1:]), #birth month and day
+        info['name'].capitalize(),
+        info['name'].upper(),
+        info['spouse_name'].capitalize(),
+        info['spouse_name'].upper(),
+        info['birthday'].replace('-', '')
     ] #define how much information can be used in the password cracking
     start_sequence = random.choice(choices)
     return start_sequence
