@@ -1,0 +1,2 @@
+run generate_env before running app.py.
+Good luck!

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            padding-top: 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form action="/register" method="post">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <div>
+                  <input type="checkbox" name="consent" required>
+                  <label for="consent">I agree to the use of my personal data in accordance with the Privacy Policy.</label><br>
+                  <input type="checkbox" name="consent" required>
+                  <label for="consent">I agree that my email will be used only to send verification codes for login purposes and no unsolicited emails will be sent.</label>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <a href="/login">Already have an account? Login here.</a>
+        {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
