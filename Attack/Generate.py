@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import csv
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
@@ -18,8 +19,8 @@ sequences = [] #create an empty array
 for password in passwords: #loop every passwords
     sequences.append([char_to_index[char] for char in password]) #use every index number to represent every passwords
 
-max_sequence_length = 12 #depends on longest passwords in the file
-sequences = pad_sequences(sequences, maxlen=max_sequence_length, padding='post') #make sure every password sequences has the same length (12), if not long enough, add 0 from the end of the sequences
+max_sequence_length = 50 #20 is the popular length for long passwords
+sequences = pad_sequences(sequences, maxlen=max_sequence_length, padding='post') #make sure every password sequences has the same length, if not long enough, add 0 from the end of the sequences
 
 X = sequences[:, :-1] #get all elements in the sequence except the last one (input)
 y = sequences[:, 1:] #get all elements in the sequence except the first one (prediction output)

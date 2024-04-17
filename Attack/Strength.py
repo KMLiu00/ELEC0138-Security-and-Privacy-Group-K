@@ -36,7 +36,7 @@ model.compile(optimizer='adam',
 train_dataset = dataset.take(int(len(dataset) * 0.8)) #take 80% from the top of the data set as the train data
 test_dataset = dataset.skip(int(len(dataset) * 0.8)) #take the rest (20%) as test data
 
-history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
+history = model.fit(train_dataset, epochs=2)
 
 test_loss, test_accuracy = model.evaluate(test_dataset)
 print(f"Test Loss: {test_loss}, Test Accuracy: {test_accuracy}")

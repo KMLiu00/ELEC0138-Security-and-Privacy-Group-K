@@ -32,10 +32,10 @@ def evaluate_password_strength(password):
 
 def generate_password(start_sequence):
 
-    max_length = random.randint(8, 12)
+    max_length = random.randint(8, 20)
     generated_password = start_sequence #initalization
 
-    while len(generated_password) < max_length: # repeat 12 times
+    while len(generated_password) < max_length:
         input_seq = [char_to_index.get(generated_password[-1], 0)] #get the index for the last eletment, if cannot be found, make it zero
         input_seq = np.array(input_seq).reshape(1, -1) #reshape input_seq to 2 dimensional with only one row
 
