@@ -55,7 +55,6 @@ def preprocess_info(info):
         info['pet_name'][0].upper(),
         info['pet_name'][0].lower(),
         info['name'].split(' ')[0],  # firstname
-        info['name'].split(' ')[1], # surname
         info['name'].split(' ')[0].upper(),  # firstname upper case
         info['name'].split(' ')[1].upper(),  # surname upper case
         info['name'].split(' ')[0].lower(),  # firstname lower case
